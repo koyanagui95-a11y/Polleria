@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel de Administración | El Brasero</title>
+  <link rel="stylesheet" href="estyles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin.js" defer></script>
+</head>
+<body class="admin-page">
+  <main class="admin-container">
+    <header class="admin-header">
+      <h1>Panel de Control — El Brasero</h1>
+      <a href="index.html" class="admin-ver-sitio">Ver sitio →</a>
+    </header>
+    <section id="seccionLogin" class="admin-login">
+      <h2>Iniciar Sesión</h2>
+      <form id="formLogin" class="admin-login__form">
+        <label for="correo">Correo electrónico</label>
+        <input type="email" id="correo" autocomplete="username" required>
+        <label for="contrasena">Contraseña</label>
+        <input type="password" id="contrasena" autocomplete="current-password" required>
+        <button type="submit" class="admin-btn admin-btn--primary">Ingresar</button>
+      </form>
+    </section>
+    <section id="seccionAdmin" class="oculto">
+      <div class="admin-bar">
+        <span id="sesionActual">Sesión: —</span>
+        <button id="btnCerrarSesion" class="admin-btn admin-btn--secondary">Cerrar Sesión</button>
+      </div>
+      <nav class="admin-tabs" role="tablist">
+        <button class="admin-tab activo" data-tab="tab-platillos" role="tab">🍽️ Platillos</button>
+        <button class="admin-tab" data-tab="tab-categorias" role="tab">📁 Categorías</button>
+        <button class="admin-tab" data-tab="tab-contenido" role="tab">📝 Contenido del sitio</button>
+      </nav>
+      <div id="tab-platillos" class="admin-tab-content">
+        <div class="admin-toolbar">
+          <label class="admin-toolbar__filtro">
+            Filtrar por categoría:
+            <select id="filtroCategoriaPlatillos">
+              <option value="">Todas</option>
+            </select>
+          </label>
+          <button id="btnNuevoPlatillo" class="admin-btn admin-btn--primary">+ Nuevo Platillo</button>
+        </div>
+        <p class="admin-help">Haz clic en la imagen para cambiarla. Los campos se guardan al salir del input.</p>
+        <div id="contenedorPlatillos" class="admin-grid"></div>
+      </div>
+      <div id="tab-categorias" class="admin-tab-content oculto">
+        <div class="admin-toolbar">
+          <p class="admin-help">Cambia la imagen o el nombre de cada categoría. Al eliminar una categoría también se eliminan sus platillos.</p>
+          <button id="btnNuevaCategoria" class="admin-btn admin-btn--primary">+ Nueva Categoría</button>
+        </div>
+        <div id="contenedorCategorias" class="admin-grid"></div>
+      </div>
+      <div id="tab-contenido" class="admin-tab-content oculto">
+        <form id="formConfig">
+          <h3 class="admin-subtitle">Inicio (Hero)</h3>
+          <div class="admin-form-group">
+            <label for="cfgHeroTitulo">Título principal:</label>
+            <input type="text" id="cfgHeroTitulo" required>
+          </div>
+          <div class="admin-form-group">
+            <label for="cfgHeroEyebrow">Texto superior (eyebrow):</label>
+            <input type="text" id="cfgHeroEyebrow">
+          </div>
+          <div class="admin-form-group">
+            <label for="cfgHeroSubtitulo">Subtítulo:</label>
+            <input type="text" id="cfgHeroSubtitulo">
+          </div>
+          <h3 class="admin-subtitle">Sobre nosotros</h3>
+          <div class="admin-form-group">
+            <label>Imagen actual:</label>
+            <img id="previewNosotros" alt="Foto Nosotros" class="admin-preview">
+            <label for="inputImgNosotros">Cambiar imagen:</label>
+            <input type="file" id="inputImgNosotros" accept="image/*">
+          </div>
+          <div class="admin-form-group">
+            <label for="cfgNosotros1">Párrafo 1:</label>
+            <textarea id="cfgNosotros1" required></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label for="cfgNosotros2">Párrafo 2:</label>
+            <textarea id="cfgNosotros2" required></textarea>
+          </div>
+          <h3 class="admin-subtitle">Contacto</h3>
+          <div class="admin-form-group">
+            <label for="cfgContactoSubtitulo">Subtítulo de sección:</label>
+            <input type="text" id="cfgContactoSubtitulo">
+          </div>
+          <div class="admin-form-group">
+            <label for="cfgCtaTitulo">Título CTA:</label>
+            <input type="text" id="cfgCtaTitulo">
+          </div>
+          <div class="admin-form-group">
+            <label for="cfgCtaSubtitulo">Subtítulo CTA:</label>
+            <input type="text" id="cfgCtaSubtitulo">
+          </div>
+          <div class="admin-form-group">
+            <label for="cfgDireccion">Dirección:</label>
+            <input type="text" id="cfgDireccion" required>
+          </div>
+          <div class="admin-form-group">
+            <label for="cfgHorario">Horario de atención:</label>
+            <input type="text" id="cfgHorario" required>
+          </div>
+          <div class="admin-form-group">
+            <label for="cfgTelefono">Teléfono visible:</label>
+            <input type="text" id="cfgTelefono" required>
+          </div>
+          <div class="admin-form-group">
+            <label for="cfgWhatsapp">Número de WhatsApp (sin signos, ej: 51987654321):</label>
+            <input type="text" id="cfgWhatsapp" required pattern="[0-9]+">
+          </div>
+          <div class="admin-form-group">
+            <label for="cfgEmail">Correo electrónico:</label>
+            <input type="email" id="cfgEmail" required>
+          </div>
+          <button type="submit" class="admin-btn admin-btn--primary admin-btn--block">Guardar Cambios del Sitio</button>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
